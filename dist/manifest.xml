@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="TaskPaneApp">
+  <Id>bce9508d-2bf5-4e74-bd8c-9a4edd7c6069</Id>
+  <Version>1.0.0.1</Version>
+  <ProviderName>CDR Law</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="CDR Clause Picker"/>
+  <Description DefaultValue="A tool for to quickly insert pre-written clauses into orders."/>
+  <IconUrl DefaultValue="https://incandescent-starlight-04c202.netlify.app/assets/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://incandescent-starlight-04c202.netlify.app/assets/icon-64.png"/>
+  <SupportUrl DefaultValue="https://www.cdrlaw.ca/contact"/>
+  <AppDomains>
+    <AppDomain>https://incandescent-starlight-04c202.netlify.app</AppDomain>
+  </AppDomains>
+  <Hosts>
+    <Host Name="Document"/>
+  </Hosts>
+  <DefaultSettings>
+    <SourceLocation DefaultValue="https://incandescent-starlight-04c202.netlify.app/taskpane.html"/>
+  </DefaultSettings>
+  <Permissions>ReadWriteDocument</Permissions>
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <Hosts>
+      <Host xsi:type="Document">
+        <DesktopFormFactor>
+          <GetStarted>
+            <Title resid="GetStarted.Title"/>
+            <Description resid="GetStarted.Description"/>
+            <LearnMoreUrl resid="GetStarted.LearnMoreUrl"/>
+          </GetStarted>
+          <FunctionFile resid="Commands.Url"/>
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <OfficeTab id="TabHome">
+              <Group id="CommandsGroup">
+                <Label resid="CommandsGroup.Label"/>
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16x16"/>
+                  <bt:Image size="32" resid="Icon.32x32"/>
+                  <bt:Image size="80" resid="Icon.80x80"/>
+                </Icon>
+                <Control xsi:type="Button" id="TaskpaneButton">
+                  <Label resid="TaskpaneButton.Label"/>
+                  <Supertip>
+                    <Title resid="TaskpaneButton.Label"/>
+                    <Description resid="TaskpaneButton.Tooltip"/>
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16x16"/>
+                    <bt:Image size="32" resid="Icon.32x32"/>
+                    <bt:Image size="80" resid="Icon.80x80"/>
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ButtonId1</TaskpaneId>
+                    <SourceLocation resid="Taskpane.Url"/>
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+    <Resources>
+      <bt:Images>
+        <bt:Image id="Icon.16x16" DefaultValue="https://incandescent-starlight-04c202.netlify.app/assets/icon-16.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://incandescent-starlight-04c202.netlify.app/assets/icon-32.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://incandescent-starlight-04c202.netlify.app/assets/icon-80.png"/>
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://go.microsoft.com/fwlink/?LinkId=276812"/>
+        <bt:Url id="Commands.Url" DefaultValue="https://incandescent-starlight-04c202.netlify.app/commands.html"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://incandescent-starlight-04c202.netlify.app/taskpane.html"/>
+      </bt:Urls>
+      <bt:ShortStrings>
+        <bt:String id="GetStarted.Title" DefaultValue="Welcome to the CDR Law Clause Picker!"/>
+        <bt:String id="CommandsGroup.Label" DefaultValue="Order Clauses"/>
+        <bt:String id="TaskpaneButton.Label" DefaultValue="Clause Picker"/>
+      </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="GetStarted.Description" DefaultValue="Your CDR Clause Picker add-in is ready. Click the 'Clause Picker' button to open the task pane and get started."/>
+        <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Click to open the CDR Law Clause Picker task pane."/>
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+</OfficeApp>

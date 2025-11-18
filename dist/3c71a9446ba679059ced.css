@@ -1,0 +1,93 @@
+/* General styling for the entire task pane */
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    background-color: #ffffff;
+    color: #000000;
+}
+
+/* Base styles for all toggle elements */
+.category-toggle,
+.subcategory-toggle,
+.subsubcategory-toggle {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
+    padding: 8px; /* Add some padding to make them easier to click */
+    border-radius: 4px; /* Slight rounding for a modern look */
+    transition: background-color 0.2s ease;
+}
+
+/* Specific styling for Category Toggles */
+.category-toggle {
+    color: #aa1111; /* Dark red color */
+    border-bottom: 2px solid #aa1111; /* A line at the bottom for emphasis */
+}
+
+/* Specific styling for Subcategory Toggles */
+.subcategory-toggle {
+    color: #a9a9a9; /* Gray color */
+    font-weight: normal; /* Less bold than categories */
+}
+
+/* Specific styling for Sub-subcategory Toggles */
+.subsubcategory-toggle {
+    color: #a9a9a9; /* Same gray as subcategories */
+    font-weight: normal;
+    font-size: 14px; /* Slightly smaller font size */
+}
+
+/* Hover effect for all toggles */
+.category-toggle:hover,
+.subcategory-toggle:hover,
+.subsubcategory-toggle:hover {
+    background-color: #f0f0f0; /* Light gray on hover */
+}
+
+/* Indicator for expandable categories */
+.category-toggle::before,
+.subcategory-toggle::before,
+.subsubcategory-toggle::before {
+    content: "+";
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+/* Changes when expanded to show '-' instead */
+.category-toggle.expanded::before,
+.subcategory-toggle.expanded::before,
+.subsubcategory-toggle.expanded::before {
+    content: "-";
+}
+
+/* Styles for content areas, hidden by default */
+.category-content,
+.subcategory-content,
+.subsubcategory-content {
+    display: none;
+    padding-left: 20px;
+}
+
+/* Show content when corresponding toggle is in expanded state */
+.category-toggle.expanded + .category-content,
+.subcategory-toggle.expanded + .subcategory-content,
+.subsubcategory-toggle.expanded + .subsubcategory-content {
+    display: block;
+}
+
+/* Styling for the clickable clause items */
+.clause-item {
+    cursor: pointer;
+    padding: 5px 10px; /* Add padding for better spacing and click area */
+    margin: 5px 0;
+    border-radius: 4px;
+    line-height: 1.5;
+    background-color: #fcfcfc; /* A very light gray background for a subtle distinction */
+    border: 1px solid #f0f0f0; /* A light border */
+    transition: background-color 0.2s ease;
+}
+
+/* Hover effect for clause items */
+.clause-item:hover {
+    background-color: #e9e9e9; /* Darker gray on hover to indicate interactivity */
+}
