@@ -1,100 +1,39 @@
 <!DOCTYPE html>
-<html lang="javascript">
-<title>CDR Clause Picker</title>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>CDR Clause Picker</title>
+
   <!-- Office JavaScript API -->
   <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
 
-  <!-- For more information on Fluent UI, visit https://developer.microsoft.com/fluentui#/. -->
+  <!-- Fluent UI core -->
   <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css" />
 
-  <style>
-    /* CSS styles */
-
-    .subcategory-toggle {
-      font-weight: bold;
-      font-size: 16px;
-    }
-
-    .category-content {
-      display: block;
-}
-
-    .category-toggle::before {
-      content: "+";
-      margin-right: 5px;
-      color: crimson;
-      font-weight: bold;
-    }
-
-    .category-toggle-expanded::before {
-      content: "-";
-      font-weight: bold;
-    }
-
-    .category-toggle-expanded + .category-content {
-      display: block;
-    }
-
-    .subcategory-content {
-      margin-left: 20px;
-    }
-
-    .subcategory-toggle::before {
-      content: "+";
-      margin-right: 5px;
-      color: blue;
-    }
-
-    .subcategory-toggle-expanded::before {
-      content: "-";
-      font-weight: bold;
-    }
-
-    .subcategory-toggle-expanded + .subcategory-content {
-      display: block;
-    }
-
-    .subsubcategory-content {
-      display: none;
-      margin-left: 20px;
-    }
-
-    .subsubcategory-toggle::before {
-      content: "+";
-      margin-right: 5px;
-    }
-
-    .subsubcategory-toggle-expanded::before {
-      content: "-";
-      font-weight: bold;
-    }
-
-    .subsubcategory-toggle-expanded + .subsubcategory-content {
-      display: block;
-    }
-  </style>
+  <!-- Your task pane styling (same folder as this HTML) -->
+  <link rel="stylesheet" type="text/css" href="taskpane.css" />
 
   <style>
-    /* CSS styles */
     .ms-welcome__header {
       padding: 10px;
       margin-bottom: 20px;
     }
-              #header {
-    background: white;
-    text-align: center;
-    padding: 20px 0; /* adjust as needed */
-}
 
-#header img {
-    max-width: 120px; /* keeps it crisp without overwhelming the pane */
-}
+    #header {
+      background: white;
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    #header img {
+      max-width: 120px;
+    }
   </style>
 </head>
+
 <body class="ms-font-m ms-welcome ms-Fabric">
     <header class="ms-welcome__header ms-bgColor-neutralLighter">
         <img width="60" height="60" src="https://incandescent-starlight-04c202.netlify.app/assets/logo-filled.png" alt="CDR Law" title="CDR Law"/>
