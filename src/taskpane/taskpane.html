@@ -108,9 +108,18 @@
   </style>
 </head>
 <body class="ms-font-m ms-welcome ms-Fabric">
-    <header class="ms-welcome__header ms-bgColor-neutralLighter">
-        <img width="60" height="60" src="https://cdrapps.blob.core.windows.net/clausepicker/assets/logo-filled.png" alt="CDR Law" title="CDR Law"/>
-    </header>
+  <div id="taskpane-root">
+    <div id="taskpane-content">
+      <!-- Your existing header -->
+      <header class="ms-welcome__header">
+        <img
+          width="60"
+          height="60"
+          src="https://incandescent-starlight-04c202.netlify.app/assets/logo-filled.png"
+          alt="CDR Law"
+          title="CDR Law"
+        />
+      </header>
     <main id="app-body" class="ms-welcome__main">
         <div class="category">
             <div class="category-toggle">Header (no clauses)</div>
@@ -1184,17 +1193,12 @@ Office.onReady(function (n) {
                 });
             });
 
-        document.querySelectorAll(".clause-item").forEach(el => {
-            el.addEventListener("click", () => {
-                if (el.cla
+    }
+})
+</script>  </div>
 
-</script>    <div id="taskpane-root">
-        <div id="taskpane-content">
-            <header>…</header>
-            <main>…</main>
-        </div>
-
-        <footer id="taskpane-footer">
-            (c) 2025 CDR Law. Built by Robert C.H. Corrigan
-        </footer>
-    </div></body></html>
+    <footer id="taskpane-footer">
+       (c)2025 CDR Law. Built by Robert C.H. Corrigan
+    </footer>
+</div>
+</body></html>
