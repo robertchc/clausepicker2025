@@ -26,13 +26,13 @@ body {
 
 /* Specific styling for Subcategory Toggles */
 .subcategory-toggle {
-    color: #a9a9a9; /* Gray color */
+    color: #555555; /* Gray color */
     font-weight: normal; /* Less bold than categories */
 }
 
 /* Specific styling for Sub-subcategory Toggles */
 .subsubcategory-toggle {
-    color: #a9a9a9; /* Same gray as subcategories */
+    color: #555555; /* Same gray as subcategories */
     font-weight: normal;
     font-size: 14px; /* Slightly smaller font size */
 }
