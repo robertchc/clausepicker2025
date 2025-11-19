@@ -1140,40 +1140,49 @@
 
 </main><script>
 function insertTextIntoDocument(n) {
-    Word.run(function (t) {
-        var selection = t.document.getSelection(); // current cursor/selection
-        selection.insertText(n, Word.InsertLocation.replace);
+    Word.run(function(t) {
+        // Get the currently selected content or cursor position
+        var selection = t.document.getSelection(); 
+        
+        // Insert the text, replacing the current selection (which is the cursor if nothing is selected)
+        selection.insertText(n, Word.InsertLocation.replace); 
+        
         return t.sync();
-    }).catch(function (n) {
+    }).catch(function(n) {
         console.log("Error: " + n);
-        n instanceof OfficeExtension.Error &&
-            console.log("Debug info: " + JSON.stringify(n.debugInfo));
+        n instanceof OfficeExtension.Error && console.log("Debug info: " + JSON.stringify(n.debugInfo));
     });
 }
 
 function insertHtmlIntoDocument(n) {
-    Word.run(function (t) {
-        var selection = t.document.getSelection(); // current cursor/selection
+    Word.run(function(t) {
+        // Get the currently selected content or cursor position
+        var selection = t.document.getSelection();
+
+        // Insert the HTML, replacing the current selection (which is the cursor if nothing is selected)
         selection.insertHtml(n, Word.InsertLocation.replace);
+        
         return t.sync();
-    }).catch(function (n) {
+    }).catch(function(n) {
         console.log("Error: " + n);
-        n instanceof OfficeExtension.Error &&
-            console.log("Debug info: " + JSON.stringify(n.debugInfo));
+        n instanceof OfficeExtension.Error && console.log("Debug info: " + JSON.stringify(n.debugInfo));
     });
 }
 
-Office.onReady(function (n) {
+Office.onReady(function(n) {
     if (n.host === Office.HostType.Word) {
-        document.querySelectorAll(".category-toggle, .subcategory-toggle, .subsubcategory-toggle")
-            .forEach(el => {
-                el.addEventListener("click", () => {
-                    el.classList.toggle("expanded");
-                });
+        document.querySelectorAll(".category-toggle, .subcategory-toggle, .subsubcategory-toggle").forEach(n => {
+            n.addEventListener("click", () => {
+                n.classList.toggle("expanded");
             });
-
-        document.querySelectorAll(".clause-item").forEach(el => {
-            el.addEventListener("click", () => {
-                if (el.cla
-
+        });
+        document.querySelectorAll(".clause-item").forEach(n => {
+            n.addEventListener("click", () => {
+                n.classList.contains("clause-multiline") || n.classList.contains("clause-table") ?
+                    insertHtmlIntoDocument(n.innerHTML) :
+                    insertTextIntoDocument(n.textContent.trim());
+            });
+        });
+    }
+})
 </script></body></html>
