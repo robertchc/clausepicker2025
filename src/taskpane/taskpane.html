@@ -58,7 +58,7 @@
     flex-shrink: 0;
     padding: 6px 10px;
     font-size: 11px;
-    text-align: right;
+    text-align: left;
     background-color: #000000; /* black */
     color: #ffffff;            /* white text */
     border-top: none;          /* remove light border – optional */
@@ -1116,81 +1116,7 @@
     </main>
 
     <footer class="cdr-footer">
-        ©2025 CDR Law. Created by Robert C.H. Corrigan
+        ©2025 CDR Law.    Created by Robert C.H. Corrigan
     </footer>
-
-<script>
-    function insertTextIntoDocument(n) {
-        Word.run(function (t) {
-            var selection = t.document.getSelection();
-            selection.insertText(n + "\n\n", Word.InsertLocation.replace);
-            return t.sync();
-        }).catch(function (n) {
-            console.log("Error: " + n);
-            if (n instanceof OfficeExtension.Error) {
-                console.log("Debug info: " + JSON.stringify(n.debugInfo));
-            }
-        });
-    }
-
-    function insertHtmlIntoDocument(n) {
-        Word.run(function (t) {
-            var selection = t.document.getSelection();
-            selection.insertHtml(n + "<p></p>", Word.InsertLocation.replace);
-            return t.sync();
-        }).catch(function (n) {
-            console.log("Error: " + n);
-            if (n instanceof OfficeExtension.Error) {
-                console.log("Debug info: " + JSON.stringify(n.debugInfo));
-            }
-        });
-    }
-
-    Office.onReady(function (info) {
-        if (info.host === Office.HostType.Word) {
-
-            // Expand / collapse – JS controls display explicitly
-            document
-                .querySelectorAll(".category-toggle, .subcategory-toggle, .subsubcategory-toggle")
-                .forEach(function (el) {
-                    el.addEventListener("click", function () {
-                        // Toggle class for +/- icon
-                        el.classList.toggle("expanded");
-
-                        // Find the immediate content block
-                        var content = el.nextElementSibling;
-                        if (!content) return;
-
-                        var isContent =
-                            content.classList.contains("category-content") ||
-                            content.classList.contains("subcategory-content") ||
-                            content.classList.contains("subsubcategory-content");
-
-                        if (!isContent) return;
-
-                        // Explicitly show/hide
-                        if (el.classList.contains("expanded")) {
-                            content.style.display = "block";
-                        } else {
-                            content.style.display = "none";
-                        }
-                    });
-                });
-
-            // Clause click → insert
-            document
-                .querySelectorAll(".clause-item")
-                .forEach(function (el) {
-                    el.addEventListener("click", function () {
-                        if (el.classList.contains("clause-multiline") || el.classList.contains("clause-table")) {
-                            insertHtmlIntoDocument(el.innerHTML);
-                        } else {
-                            insertTextIntoDocument(el.textContent.trim());
-                        }
-                    });
-                });
-        }
-    })
-</script>
 </body>
 </html>
