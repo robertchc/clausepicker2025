@@ -4,6 +4,17 @@ body {
     background-color: #ffffff;
     color: #000000;
 }
+/* Description block under the header */
+.library-description {
+    background: #f7f7f7;
+    padding: 12px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 1.4;
+    margin: 0 10px 15px 10px;
+    color: #333;
+}
+
 
 /* Base styles for all toggle elements */
 .category-toggle,
