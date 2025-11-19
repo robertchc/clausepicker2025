@@ -52,7 +52,8 @@ function wireClauseButtons() {
 function insertTextIntoDocument(n) {
     Word.run(function (context) {
         const selection = context.document.getSelection();
-        selection.insertText(n + "\n\n", Word.InsertLocation.replace);
+        // Change from Word.InsertLocation.replace to Word.InsertLocation.end
+        selection.insertText(n + "\n\n", Word.InsertLocation.end); 
         return context.sync();
     });
 }
@@ -60,7 +61,8 @@ function insertTextIntoDocument(n) {
 function insertHtmlIntoDocument(n) {
     Word.run(function (context) {
         const selection = context.document.getSelection();
-        selection.insertHtml(n + "<p></p>", Word.InsertLocation.replace);
+        // Change from Word.InsertLocation.replace to Word.InsertLocation.end
+        selection.insertHtml(n + "<p></p>", Word.InsertLocation.end);
         return context.sync();
     });
 }
