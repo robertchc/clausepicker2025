@@ -51,32 +51,37 @@ function wireClauseButtons() {
 
 function insertTextIntoDocument(n) {
     return Word.run(function (context) {
-        const selection = context.document.getSelection();
+        let selection = context.document.getSelection();
+
+        // 1. INSERT: Inserts the content at the cursor's current position (Word.InsertLocation.end).
+        selection.insertText(n + "\n\n", Word.InsertLocation.end);
+
+        // 2. LOAD: Tells the API to fetch the boundary points of the selection after insertion.
+        selection.load("start, end");
         
-        // 1. Insert the text
-        selection.insertText(n + "\n\n", Word.InsertLocation.end); 
-        
-        // 2. Insert a new selection/cursor point (empty range) at the end 
-        //    of the content we just inserted.
-        const newSelection = selection.insertContentControl();
-        newSelection.delete(); // Immediately delete the content control to leave a cursor
-        
-        return context.sync();
+        return context.sync().then(function() {
+            // 3. MOVE: This fires after the first sync. It collapses the selection 
+            //    to a cursor (0 units) at the new 'end' of the inserted range. 
+            //    This is the critical step to set the new, updated insertion point.
+            selection.move(Word.MovementType.wdCharacter, 0, Word.MovementType.end);
+            return context.sync(); // 4. SYNC: Ensures the cursor movement is fully committed.
+        });
     });
 }
-
 function insertHtmlIntoDocument(n) {
     return Word.run(function (context) {
-        const selection = context.document.getSelection();
+        let selection = context.document.getSelection();
 
-        // 1. Insert the HTML
+        // 1. INSERT: Inserts the HTML content at the cursor's current position.
         selection.insertHtml(n + "<p></p>", Word.InsertLocation.end);
 
-        // 2. Insert a new selection/cursor point (empty range) at the end
-        //    of the content we just inserted.
-        const newSelection = selection.insertContentControl();
-        newSelection.delete(); // Immediately delete the content control to leave a cursor
-
-        return context.sync();
+        // 2. LOAD: Tells the API to fetch the boundary points of the selection after insertion.
+        selection.load("start, end");
+        
+        return context.sync().then(function() {
+            // 3. MOVE: Collapses the selection to the new 'end' of the inserted range (after the <p></p>).
+            selection.move(Word.MovementType.wdCharacter, 0, Word.MovementType.end);
+            return context.sync(); // 4. SYNC: Commits the final cursor position update.
+        });
     });
 }
