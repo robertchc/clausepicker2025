@@ -50,19 +50,33 @@ function wireClauseButtons() {
 }
 
 function insertTextIntoDocument(n) {
-    Word.run(function (context) {
+    return Word.run(function (context) {
         const selection = context.document.getSelection();
-        // Change from Word.InsertLocation.replace to Word.InsertLocation.end
+        
+        // 1. Insert the text
         selection.insertText(n + "\n\n", Word.InsertLocation.end); 
+        
+        // 2. Insert a new selection/cursor point (empty range) at the end 
+        //    of the content we just inserted.
+        const newSelection = selection.insertContentControl();
+        newSelection.delete(); // Immediately delete the content control to leave a cursor
+        
         return context.sync();
     });
 }
 
 function insertHtmlIntoDocument(n) {
-    Word.run(function (context) {
+    return Word.run(function (context) {
         const selection = context.document.getSelection();
-        // Change from Word.InsertLocation.replace to Word.InsertLocation.end
+
+        // 1. Insert the HTML
         selection.insertHtml(n + "<p></p>", Word.InsertLocation.end);
+
+        // 2. Insert a new selection/cursor point (empty range) at the end
+        //    of the content we just inserted.
+        const newSelection = selection.insertContentControl();
+        newSelection.delete(); // Immediately delete the content control to leave a cursor
+
         return context.sync();
     });
 }
