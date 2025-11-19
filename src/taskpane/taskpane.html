@@ -17,7 +17,7 @@
   <link rel="stylesheet" type="text/css" href="taskpane.css" />
 
 <style>
-  /* Layout: header at top, footer at bottom, body scrolls */
+  /* Layout so footer sticks to bottom */
   html, body {
     height: 100%;
   }
@@ -29,6 +29,7 @@
     background-color: #ffffff;
   }
 
+  /* Main scroll area for clauses */
   .ms-welcome__main {
     flex: 1 1 auto;
     overflow-y: auto;
@@ -47,12 +48,12 @@
   }
 
   #header img {
-    width: 160px;        /* bump this up/down to taste */
+    width: 160px;     /* increase/decrease to taste */
     height: auto;
     display: inline-block;
   }
 
-  /* Footer stuck to bottom */
+  /* Footer pinned to bottom */
   .cdr-footer {
     flex-shrink: 0;
     padding: 6px 10px;
@@ -62,6 +63,7 @@
     background-color: #ffffff;
   }
 </style>
+
 
 </head>
 
@@ -1110,51 +1112,64 @@
     </div>
 </div>
 
-</main><script>
-function insertTextIntoDocument(n) {
-    Word.run(function(t) {
-        // Get the currently selected content or cursor position
-        var selection = t.document.getSelection(); 
-        
-        // Insert the text, replacing the current selection (which is the cursor if nothing is selected)
-        selection.insertText(n, Word.InsertLocation.replace); 
-        
-        return t.sync();
-    }).catch(function(n) {
-        console.log("Error: " + n);
-        n instanceof OfficeExtension.Error && console.log("Debug info: " + JSON.stringify(n.debugInfo));
-    });
-}
+    </main>
 
-function insertHtmlIntoDocument(n) {
-    Word.run(function(t) {
-        // Get the currently selected content or cursor position
-        var selection = t.document.getSelection();
+    <footer class="cdr-footer">
+        CDR Clause Picker
+    </footer>
 
-        // Insert the HTML, replacing the current selection (which is the cursor if nothing is selected)
-        selection.insertHtml(n, Word.InsertLocation.replace);
-        
-        return t.sync();
-    }).catch(function(n) {
-        console.log("Error: " + n);
-        n instanceof OfficeExtension.Error && console.log("Debug info: " + JSON.stringify(n.debugInfo));
-    });
-}
-
-Office.onReady(function(n) {
-    if (n.host === Office.HostType.Word) {
-        document.querySelectorAll(".category-toggle, .subcategory-toggle, .subsubcategory-toggle").forEach(n => {
-            n.addEventListener("click", () => {
-                n.classList.toggle("expanded");
-            });
-        });
-        document.querySelectorAll(".clause-item").forEach(n => {
-            n.addEventListener("click", () => {
-                n.classList.contains("clause-multiline") || n.classList.contains("clause-table") ?
-                    insertHtmlIntoDocument(n.innerHTML) :
-                    insertTextIntoDocument(n.textContent.trim());
-            });
+    <script>
+    function insertTextIntoDocument(n) {
+        Word.run(function (t) {
+            var selection = t.document.getSelection();
+            selection.insertText(n + "\n\n", Word.InsertLocation.replace);
+            return t.sync();
+        }).catch(function (n) {
+            console.log("Error: " + n);
+            if (n instanceof OfficeExtension.Error) {
+                console.log("Debug info: " + JSON.stringify(n.debugInfo));
+            }
         });
     }
-})
-</script></body></html>
+
+    function insertHtmlIntoDocument(n) {
+        Word.run(function (t) {
+            var selection = t.document.getSelection();
+            selection.insertHtml(n + "<p></p>", Word.InsertLocation.replace);
+            return t.sync();
+        }).catch(function (n) {
+            console.log("Error: " + n);
+            if (n instanceof OfficeExtension.Error) {
+                console.log("Debug info: " + JSON.stringify(n.debugInfo));
+            }
+        });
+    }
+
+    Office.onReady(function (info) {
+        if (info.host === Office.HostType.Word) {
+            // expand / collapse
+            document
+                .querySelectorAll(".category-toggle, .subcategory-toggle, .subsubcategory-toggle")
+                .forEach(function (el) {
+                    el.addEventListener("click", function () {
+                        el.classList.toggle("expanded");
+                    });
+                });
+
+            // clause click → insert
+            document
+                .querySelectorAll(".clause-item")
+                .forEach(function (el) {
+                    el.addEventListener("click", function () {
+                        if (el.classList.contains("clause-multiline") || el.classList.contains("clause-table")) {
+                            insertHtmlIntoDocument(el.innerHTML);
+                        } else {
+                            insertTextIntoDocument(el.textContent.trim());
+                        }
+                    });
+                });
+        }
+    });
+    </script>
+</body>
+</html>
