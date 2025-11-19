@@ -50,21 +50,23 @@ function wireClauseButtons() {
 }
 
 /**
- * Inserts plain text and explicitly updates the cursor position for sequential clicks.
+ * Inserts plain text and positions the cursor without extra blank lines.
  * @param {string} text The clause text to insert.
  */
 function insertTextIntoDocument(text) {
     return Word.run(function (context) {
         let selection = context.document.getSelection();
 
-        // 1. Insert the text content and two paragraph breaks (\n\n) at the end of the current selection.
-        selection.insertText(text + "\n\n", Word.InsertLocation.end);
+        // 1. Insert the clause text. Use Word.InsertLocation.end.
+        selection.insertText(text, Word.InsertLocation.end);
 
-        // 2. CRITICAL STEP: Insert an empty string AFTER the selection. This returns a new Range object.
-        let newRange = selection.insertText("", Word.InsertLocation.after);
-
-        // 3. Set the active document selection to this new range. This explicitly moves the cursor.
-        newRange.select();
+        // 2. Insert one empty paragraph directly AFTER the inserted text.
+        //    This separates the current clause from the next.
+        let newParagraph = selection.insertParagraph("", Word.InsertLocation.after);
+        
+        // 3. Set the active document selection to the END of the new paragraph. 
+        //    This explicitly moves the cursor to the correct spot for the next click.
+        newParagraph.select("End");
 
         return context.sync(); 
     }).catch(function (error) {
@@ -73,21 +75,23 @@ function insertTextIntoDocument(text) {
 }
 
 /**
- * Inserts HTML content and explicitly updates the cursor position for sequential clicks.
+ * Inserts HTML content and positions the cursor without extra blank lines.
  * @param {string} html The clause HTML to insert.
  */
 function insertHtmlIntoDocument(html) {
     return Word.run(function (context) {
         let selection = context.document.getSelection();
 
-        // 1. Insert the HTML content (including a trailing <p></p> for a new paragraph)
-        selection.insertHtml(html + "<p></p>", Word.InsertLocation.end);
+        // 1. Insert the HTML content (which should contain its own paragraph tags).
+        selection.insertHtml(html, Word.InsertLocation.end);
 
-        // 2. CRITICAL STEP: Insert an empty string AFTER the selection. This returns a new Range object.
-        let newRange = selection.insertText("", Word.InsertLocation.after);
-
-        // 3. Set the active document selection to this new range. This explicitly moves the cursor.
-        newRange.select();
+        // 2. Insert one empty paragraph directly AFTER the inserted HTML.
+        //    This guarantees separation between clauses.
+        let newParagraph = selection.insertParagraph("", Word.InsertLocation.after);
+        
+        // 3. Set the active document selection to the END of the new paragraph. 
+        //    This explicitly moves the cursor to the correct spot for the next click.
+        newParagraph.select("End");
 
         return context.sync();
     }).catch(function (error) {
