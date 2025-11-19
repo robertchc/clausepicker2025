@@ -102,41 +102,26 @@ function wireClauseButtons() {
     // Target all elements that represent a clause
     document.querySelectorAll(".clause-item").forEach((clauseElement) => {
         clauseElement.addEventListener("click", () => {
-            const isTable = clauseElement.classList.contains('clause-table');
-            const isMultiline = clauseElement.classList.contains('clause-multiline');
+            const isTable = clauseElement.classList.contains("clause-table");
+            const isMultiline = clauseElement.classList.contains("clause-multiline");
 
             const clause = {
                 isTable: isTable,
-                text: null, 
+                text: null,
                 html: null,
                 tableData: null
             };
 
             if (isTable) {
-                // For tables, we need to extract the data and put it into the expected object format.
-                // NOTE: Since your HTML uses a literal <table>, you MUST manually change it
-                // to a JSON string in a data attribute (see Step 2 below).
-                // **The code below is a placeholder for the JSON approach (recommended)**
-                const dataTableString = clauseElement.getAttribute('data-table');
-                if (dataTableString) {
-                    try {
-                        clause.tableData = JSON.parse(dataTableString);
-                    } catch(e) {
-                        console.error("Failed to parse table JSON for insertion. Element:", clauseElement, e);
-                        setStatus("Error: Invalid table data format in HTML.");
-                        return;
-                    }
-                } else {
-                     // Fallback to simpler content for now if no data-table is present
-                     clause.text = clauseElement.textContent.trim();
-                }
-
-            } else if (isMultiline || clauseElement.querySelector('ul, ol')) {
+                // Insert the table exactly as written in the HTML
+                clause.html = clauseElement.innerHTML;
+                // Force the non-table branch in insertClauseIntoWord so it uses insertHtml
+                clause.isTable = false;
+            } else if (isMultiline || clauseElement.querySelector("ul, ol")) {
                 // For multiline content (P tags, UL/OL lists) use innerHTML to preserve formatting.
                 clause.html = clauseElement.innerHTML;
             } else {
                 // For simple, single-line clauses inside a <p> tag, use textContent.
-                // We use .trim() to ensure no surrounding whitespace.
                 clause.text = clauseElement.textContent.trim();
             }
 
@@ -149,6 +134,7 @@ function wireClauseButtons() {
         });
     });
 }
+
 // --- END NEW FUNCTION ---
 
 // --- UI AND INITIALIZATION ---
