@@ -1,115 +1,130 @@
 <!DOCTYPE html>
-<html lang="javascript">
-<title>CDR Clause Picker</title>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CDR Clause Picker</title>
+
   <!-- Office JavaScript API -->
-  <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+  <script
+    type="text/javascript"
+    src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js">
+  </script>
 
   <!-- For more information on Fluent UI, visit https://developer.microsoft.com/fluentui#/. -->
-  <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css" />
+  <link
+    rel="stylesheet"
+    href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css" />
 
   <style>
-    /* CSS styles */
-    /* Parent container fills the taskpane */
-#taskpane-root {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-}
+    /* Layout – taskpane structure */
+    #taskpane-root {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
 
-/* Content scrolls above the footer */
-#taskpane-content {
-    flex: 1;
-    overflow-y: auto;
-}
+    #taskpane-content {
+      flex: 1;
+      overflow-y: auto;
+    }
 
-/* Footer sticks to the bottom */
-#taskpane-footer {
-    background: #000;
-    color: #fff;
-    font-size: 11px;
-    text-align: center;
-    padding: 8px 10px;
-}
+    #taskpane-footer {
+      background: #000;
+      color: #fff;
+      font-size: 11px;
+      text-align: center;
+      padding: 8px 10px;
+    }
 
-/* Category / subcategory / subsubcategory content is collapsed by default */
-.category-content,
-.subcategory-content,
-.subsubcategory-content {
-  display: none;
-}
-
-/* Category toggles */
-.category-toggle::before {
-  content: "+";
-  margin-right: 5px;
-  color: crimson;
-  font-weight: bold;
-}
-
-.category-toggle.expanded::before {
-  content: "-";
-  font-weight: bold;
-}
-
-/* When a category toggle is expanded, show its content */
-.category-toggle.expanded + .category-content {
-  display: block;
-}
-
-/* Subcategory */
-.subcategory-content {
-  margin-left: 20px;
-}
-
-.subcategory-toggle::before {
-  content: "+";
-  margin-right: 5px;
-  color: blue;
-}
-
-.subcategory-toggle.expanded::before {
-  content: "-";
-  font-weight: bold;
-}
-
-.subcategory-toggle.expanded + .subcategory-content {
-  display: block;
-}
-
-/* Subsubcategory */
-.subsubcategory-content {
-  display: none;
-  margin-left: 20px;
-}
-
-.subsubcategory-toggle::before {
-  content: "+";
-  margin-right: 5px;
-}
-
-.subsubcategory-toggle.expanded::before {
-  content: "-";
-  font-weight: bold;
-}
-
-.subsubcategory-toggle.expanded + .subsubcategory-content {
-  display: block;
-}
-
-  </style>
-
-  <style>
-    /* CSS styles */
+    /* Header spacing */
     .ms-welcome__header {
       padding: 10px;
       margin-bottom: 20px;
     }
+
+    /* All content collapsed by default */
+    .category-content,
+    .subcategory-content,
+    .subsubcategory-content {
+      display: none;
+    }
+
+    /* Category toggles */
+    .category-toggle {
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .category-toggle::before {
+      content: "+";
+      margin-right: 5px;
+      color: crimson;
+      font-weight: bold;
+    }
+
+    .category-toggle.expanded::before {
+      content: "-";
+    }
+
+    .category-toggle.expanded + .category-content {
+      display: block;
+    }
+
+    /* Subcategory toggles */
+    .subcategory-toggle {
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .subcategory-content {
+      margin-left: 20px;
+    }
+
+    .subcategory-toggle::before {
+      content: "+";
+      margin-right: 5px;
+      color: blue;
+    }
+
+    .subcategory-toggle.expanded::before {
+      content: "-";
+      font-weight: bold;
+    }
+
+    .subcategory-toggle.expanded + .subcategory-content {
+      display: block;
+    }
+
+    /* Subsubcategory toggles */
+    .subsubcategory-toggle {
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .subsubcategory-content {
+      margin-left: 20px;
+    }
+
+    .subsubcategory-toggle::before {
+      content: "+";
+      margin-right: 5px;
+    }
+
+    .subsubcategory-toggle.expanded::before {
+      content: "-";
+      font-weight: bold;
+    }
+
+    .subsubcategory-toggle.expanded + .subsubcategory-content {
+      display: block;
+    }
   </style>
 </head>
+
 <body class="ms-font-m ms-welcome ms-Fabric">
   <div id="taskpane-root">
     <div id="taskpane-content">
@@ -1162,46 +1177,66 @@
     </div>
 </div>
 
-</main><script>
-function insertTextIntoDocument(n) {
-    Word.run(function (t) {
-        var selection = t.document.getSelection(); // current cursor/selection
-        selection.insertText(n, Word.InsertLocation.replace);
-        return t.sync();
-    }).catch(function (n) {
-        console.log("Error: " + n);
-        n instanceof OfficeExtension.Error &&
-            console.log("Debug info: " + JSON.stringify(n.debugInfo));
-    });
-}
-
-function insertHtmlIntoDocument(n) {
-    Word.run(function (t) {
-        var selection = t.document.getSelection(); // current cursor/selection
-        selection.insertHtml(n, Word.InsertLocation.replace);
-        return t.sync();
-    }).catch(function (n) {
-        console.log("Error: " + n);
-        n instanceof OfficeExtension.Error &&
-            console.log("Debug info: " + JSON.stringify(n.debugInfo));
-    });
-}
-
-Office.onReady(function (n) {
-    if (n.host === Office.HostType.Word) {
-        document.querySelectorAll(".category-toggle, .subcategory-toggle, .subsubcategory-toggle")
-            .forEach(el => {
-                el.addEventListener("click", () => {
-                    el.classList.toggle("expanded");
-                });
-            });
-
-    }
-})
-</script>  </div>
+    </main>
 
     <footer id="taskpane-footer">
        (c)2025 CDR Law. Built by Robert C.H. Corrigan
     </footer>
-</div>
-</body></html>
+  </div> <!-- #taskpane-content -->
+</div> <!-- #taskpane-root -->
+
+<script>
+function insertTextIntoDocument(text) {
+    Word.run(function (context) {
+        var selection = context.document.getSelection(); // current cursor/selection
+        selection.insertText(text, Word.InsertLocation.replace);
+        return context.sync();
+    }).catch(function (error) {
+        console.log("Error: " + error);
+        if (error instanceof OfficeExtension.Error) {
+            console.log("Debug info: " + JSON.stringify(error.debugInfo));
+        }
+    });
+}
+
+function insertHtmlIntoDocument(html) {
+    Word.run(function (context) {
+        var selection = context.document.getSelection(); // current cursor/selection
+        selection.insertHtml(html, Word.InsertLocation.replace);
+        return context.sync();
+    }).catch(function (error) {
+        console.log("Error: " + error);
+        if (error instanceof OfficeExtension.Error) {
+            console.log("Debug info: " + JSON.stringify(error.debugInfo));
+        }
+    });
+}
+
+Office.onReady(function (info) {
+    if (info.host === Office.HostType.Word) {
+        // Expand / collapse for all levels
+        document
+            .querySelectorAll(".category-toggle, .subcategory-toggle, .subsubcategory-toggle")
+            .forEach(function (el) {
+                el.addEventListener("click", function () {
+                    el.classList.toggle("expanded");
+                });
+            });
+
+        // Clause insertion
+        document.querySelectorAll(".clause-item").forEach(function (el) {
+            el.addEventListener("click", function () {
+                if (el.classList.contains("clause-multiline") ||
+                    el.classList.contains("clause-table")) {
+                    insertHtmlIntoDocument(el.innerHTML);
+                } else {
+                    insertTextIntoDocument(el.textContent.trim());
+                }
+            });
+        });
+    }
+});
+</script>
+
+</body>
+</html>
