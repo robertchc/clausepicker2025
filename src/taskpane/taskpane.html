@@ -35,68 +35,71 @@
     padding: 8px 10px;
 }
 
-    .subcategory-toggle {
-      font-weight: bold;
-      font-size: 16px;
-    }
-
-    .category-content {
-      display: block;
+/* Category / subcategory / subsubcategory content is collapsed by default */
+.category-content,
+.subcategory-content,
+.subsubcategory-content {
+  display: none;
 }
 
-    .category-toggle::before {
-      content: "+";
-      margin-right: 5px;
-      color: crimson;
-      font-weight: bold;
-    }
+/* Category toggles */
+.category-toggle::before {
+  content: "+";
+  margin-right: 5px;
+  color: crimson;
+  font-weight: bold;
+}
 
-    .category-toggle-expanded::before {
-      content: "-";
-      font-weight: bold;
-    }
+.category-toggle.expanded::before {
+  content: "-";
+  font-weight: bold;
+}
 
-    .category-toggle-expanded + .category-content {
-      display: block;
-    }
+/* When a category toggle is expanded, show its content */
+.category-toggle.expanded + .category-content {
+  display: block;
+}
 
-    .subcategory-content {
-      margin-left: 20px;
-    }
+/* Subcategory */
+.subcategory-content {
+  margin-left: 20px;
+}
 
-    .subcategory-toggle::before {
-      content: "+";
-      margin-right: 5px;
-      color: blue;
-    }
+.subcategory-toggle::before {
+  content: "+";
+  margin-right: 5px;
+  color: blue;
+}
 
-    .subcategory-toggle-expanded::before {
-      content: "-";
-      font-weight: bold;
-    }
+.subcategory-toggle.expanded::before {
+  content: "-";
+  font-weight: bold;
+}
 
-    .subcategory-toggle-expanded + .subcategory-content {
-      display: block;
-    }
+.subcategory-toggle.expanded + .subcategory-content {
+  display: block;
+}
 
-    .subsubcategory-content {
-      display: none;
-      margin-left: 20px;
-    }
+/* Subsubcategory */
+.subsubcategory-content {
+  display: none;
+  margin-left: 20px;
+}
 
-    .subsubcategory-toggle::before {
-      content: "+";
-      margin-right: 5px;
-    }
+.subsubcategory-toggle::before {
+  content: "+";
+  margin-right: 5px;
+}
 
-    .subsubcategory-toggle-expanded::before {
-      content: "-";
-      font-weight: bold;
-    }
+.subsubcategory-toggle.expanded::before {
+  content: "-";
+  font-weight: bold;
+}
 
-    .subsubcategory-toggle-expanded + .subsubcategory-content {
-      display: block;
-    }
+.subsubcategory-toggle.expanded + .subsubcategory-content {
+  display: block;
+}
+
   </style>
 
   <style>
