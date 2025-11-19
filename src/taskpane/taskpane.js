@@ -10,13 +10,7 @@
 
   <!-- For more information on Fluent UI, visit https://developer.microsoft.com/fluentui#/. -->
   <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css" />
-<link rel="stylesheet" type="text/css" href="../taskpane.css" />
-
-  <style>
-    /* CSS styles */
-
-
-  </style>
+  <link rel="stylesheet" type="text/css" href="../taskpane.css" />
 
   <style>
     /* CSS styles */
