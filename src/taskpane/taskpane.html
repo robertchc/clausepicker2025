@@ -16,28 +16,61 @@
   <!-- Your task pane styling (same folder as this HTML) -->
   <link rel="stylesheet" type="text/css" href="taskpane.css" />
 
-  <style>
-    .ms-welcome__header {
-      padding: 10px;
-      margin-bottom: 20px;
-    }
+<style>
+  /* Layout: header at top, footer at bottom, body scrolls */
+  html, body {
+    height: 100%;
+  }
 
-    #header {
-      background: white;
-      text-align: center;
-      padding: 20px 0;
-    }
+  body.ms-welcome {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    background-color: #ffffff;
+  }
 
-    #header img {
-      max-width: 120px;
-    }
-  </style>
+  .ms-welcome__main {
+    flex: 1 1 auto;
+    overflow-y: auto;
+  }
+
+  /* Header / logo */
+  .ms-welcome__header {
+    margin: 0;
+  }
+
+  #header {
+    background: #ffffff;
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  #header img {
+    width: 160px;        /* bump this up/down to taste */
+    height: auto;
+    display: inline-block;
+  }
+
+  /* Footer stuck to bottom */
+  .cdr-footer {
+    flex-shrink: 0;
+    padding: 6px 10px;
+    font-size: 11px;
+    text-align: right;
+    border-top: 1px solid #e0e0e0;
+    background-color: #ffffff;
+  }
+</style>
+
 </head>
 
 <body class="ms-font-m ms-welcome ms-Fabric">
-    <header class="ms-welcome__header ms-bgColor-neutralLighter">
-        <img width="60" height="60" src="https://incandescent-starlight-04c202.netlify.app/assets/logo-filled.png" alt="CDR Law" title="CDR Law"/>
-    </header>
+<header id="header" class="ms-welcome__header">
+    <img src="https://incandescent-starlight-04c202.netlify.app/assets/logo-filled.png"
+         alt="CDR Law" title="CDR Law" />
+</header>
+
     <main id="app-body" class="ms-welcome__main">
         <div class="category">
             <div class="category-toggle">Header (no clauses)</div>
