@@ -115,59 +115,6 @@ async function insertClauseIntoWord(clause) {
 }
 
 /**
- * Wire up all clause-item elements to insert into Word on click.
- */
-function wireClauseButtons() {
-  document.querySelectorAll(".clause-item").forEach((el) => {
-    el.addEventListener("click", () => {
-      const isTable = el.classList.contains("clause-table");
-      const isMultiline = el.classList.contains("clause-multiline");
-
-      const clause = {
-        isTable,
-        text: null,
-        html: null,
-        tableData: null,
-      };
-
-      if (isTable) {
-        // Expect structured data in a data-table attribute, if present
-        const tableJson = el.getAttribute("data-table");
-
-        if (tableJson) {
-          try {
-            clause.tableData = JSON.parse(tableJson);
-          } catch (err) {
-            console.error(
-              "Failed to parse table JSON for insertion. Element:",
-              el,
-              err
-            );
-            setStatus("Error: Invalid table data format in HTML.");
-            return;
-          }
-        } else {
-          // Fallback: just insert the text if no JSON is provided
-          clause.text = el.textContent.trim();
-        }
-      } else if (isMultiline || el.querySelector("ul, ol")) {
-        // Multiline / list clauses – preserve HTML structure
-        clause.html = el.innerHTML;
-      } else {
-        // Simple line clause – use plain text
-        clause.text = el.textContent.trim();
-      }
-
-      if (clause.text || clause.html || clause.tableData) {
-        insertClauseIntoWord(clause);
-      } else {
-        console.warn("Attempted to insert empty clause:", el);
-      }
-    });
-  });
-}
-
-/**
  * Wire up expand/collapse on all heading toggles.
  */
 function wireToggles() {
