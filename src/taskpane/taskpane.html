@@ -53,15 +53,16 @@
     display: inline-block;
   }
 
-  /* Footer pinned to bottom */
-  .cdr-footer {
+/* Footer pinned to bottom */
+.cdr-footer {
     flex-shrink: 0;
     padding: 6px 10px;
     font-size: 11px;
     text-align: right;
-    border-top: 1px solid #e0e0e0;
-    background-color: #ffffff;
-  }
+    background-color: #000000; /* black */
+    color: #ffffff;            /* white text */
+    border-top: none;          /* remove light border – optional */
+}
 </style>
 
 
@@ -1115,7 +1116,7 @@
     </main>
 
     <footer class="cdr-footer">
-        CDR Clause Picker
+        ©2025 CDR Law. Created by Robert C.H. Corrigan
     </footer>
 
 <script>
@@ -1145,25 +1146,51 @@
         });
     }
 
-Office.onReady(function(n) {
-    if (n.host === Office.HostType.Word) {
-            // expand / collapse
+    Office.onReady(function (info) {
+        if (info.host === Office.HostType.Word) {
+
+            // Expand / collapse – JS controls display explicitly
             document
                 .querySelectorAll(".category-toggle, .subcategory-toggle, .subsubcategory-toggle")
                 .forEach(function (el) {
                     el.addEventListener("click", function () {
+                        // Toggle class for +/- icon
                         el.classList.toggle("expanded");
+
+                        // Find the immediate content block
+                        var content = el.nextElementSibling;
+                        if (!content) return;
+
+                        var isContent =
+                            content.classList.contains("category-content") ||
+                            content.classList.contains("subcategory-content") ||
+                            content.classList.contains("subsubcategory-content");
+
+                        if (!isContent) return;
+
+                        // Explicitly show/hide
+                        if (el.classList.contains("expanded")) {
+                            content.style.display = "block";
+                        } else {
+                            content.style.display = "none";
+                        }
                     });
                 });
-        document.querySelectorAll(".clause-item").forEach(n => {
-            n.addEventListener("click", () => {
-                n.classList.contains("clause-multiline") || n.classList.contains("clause-table") ?
-                    insertHtmlIntoDocument(n.innerHTML) :
-                    insertTextIntoDocument(n.textContent.trim());
-            });
-        });
-    }
-})
+
+            // Clause click → insert
+            document
+                .querySelectorAll(".clause-item")
+                .forEach(function (el) {
+                    el.addEventListener("click", function () {
+                        if (el.classList.contains("clause-multiline") || el.classList.contains("clause-table")) {
+                            insertHtmlIntoDocument(el.innerHTML);
+                        } else {
+                            insertTextIntoDocument(el.textContent.trim());
+                        }
+                    });
+                });
+        }
+    })
 </script>
 </body>
 </html>
