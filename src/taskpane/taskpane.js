@@ -49,39 +49,48 @@ function wireClauseButtons() {
     });
 }
 
-function insertTextIntoDocument(n) {
+/**
+ * Inserts plain text and explicitly updates the cursor position for sequential clicks.
+ * @param {string} text The clause text to insert.
+ */
+function insertTextIntoDocument(text) {
     return Word.run(function (context) {
         let selection = context.document.getSelection();
 
-        // 1. INSERT: Inserts the content at the cursor's current position (Word.InsertLocation.end).
-        selection.insertText(n + "\n\n", Word.InsertLocation.end);
+        // 1. Insert the text content and two paragraph breaks (\n\n) at the end of the current selection.
+        selection.insertText(text + "\n\n", Word.InsertLocation.end);
 
-        // 2. LOAD: Tells the API to fetch the boundary points of the selection after insertion.
-        selection.load("start, end");
-        
-        return context.sync().then(function() {
-            // 3. MOVE: This fires after the first sync. It collapses the selection 
-            //    to a cursor (0 units) at the new 'end' of the inserted range. 
-            //    This is the critical step to set the new, updated insertion point.
-            selection.move(Word.MovementType.wdCharacter, 0, Word.MovementType.end);
-            return context.sync(); // 4. SYNC: Ensures the cursor movement is fully committed.
-        });
+        // 2. CRITICAL STEP: Insert an empty string AFTER the selection. This returns a new Range object.
+        let newRange = selection.insertText("", Word.InsertLocation.after);
+
+        // 3. Set the active document selection to this new range. This explicitly moves the cursor.
+        newRange.select();
+
+        return context.sync(); 
+    }).catch(function (error) {
+        console.error("Error inserting text:", error);
     });
 }
-function insertHtmlIntoDocument(n) {
+
+/**
+ * Inserts HTML content and explicitly updates the cursor position for sequential clicks.
+ * @param {string} html The clause HTML to insert.
+ */
+function insertHtmlIntoDocument(html) {
     return Word.run(function (context) {
         let selection = context.document.getSelection();
 
-        // 1. INSERT: Inserts the HTML content at the cursor's current position.
-        selection.insertHtml(n + "<p></p>", Word.InsertLocation.end);
+        // 1. Insert the HTML content (including a trailing <p></p> for a new paragraph)
+        selection.insertHtml(html + "<p></p>", Word.InsertLocation.end);
 
-        // 2. LOAD: Tells the API to fetch the boundary points of the selection after insertion.
-        selection.load("start, end");
-        
-        return context.sync().then(function() {
-            // 3. MOVE: Collapses the selection to the new 'end' of the inserted range (after the <p></p>).
-            selection.move(Word.MovementType.wdCharacter, 0, Word.MovementType.end);
-            return context.sync(); // 4. SYNC: Commits the final cursor position update.
-        });
+        // 2. CRITICAL STEP: Insert an empty string AFTER the selection. This returns a new Range object.
+        let newRange = selection.insertText("", Word.InsertLocation.after);
+
+        // 3. Set the active document selection to this new range. This explicitly moves the cursor.
+        newRange.select();
+
+        return context.sync();
+    }).catch(function (error) {
+        console.error("Error inserting HTML:", error);
     });
 }
