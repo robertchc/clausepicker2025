@@ -13,6 +13,27 @@
 
   <style>
     /* CSS styles */
+    /* Parent container fills the taskpane */
+#taskpane-root {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Content scrolls above the footer */
+#taskpane-content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* Footer sticks to the bottom */
+#taskpane-footer {
+    background: #000;
+    color: #fff;
+    font-size: 11px;
+    text-align: center;
+    padding: 8px 10px;
+}
 
     .subcategory-toggle {
       font-weight: bold;
@@ -76,30 +97,20 @@
     .subsubcategory-toggle-expanded + .subsubcategory-content {
       display: block;
     }
-     
-    /* CSS styles */
-.ms-welcome__header {
-    background: white;
-    text-align: center;
-    padding: 20px 0;
-}
-
-.ms-welcome__header img {
-    max-width: 120px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-}
   </style>
 
-
-
+  <style>
+    /* CSS styles */
+    .ms-welcome__header {
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body class="ms-font-m ms-welcome ms-Fabric">
-<header class="ms-welcome__header">
-    <img src="https://incandescent-starlight-04c202.netlify.app/assets/logo-filled.png"
-         alt="CDR Law" title="CDR Law" />
-</header>
+    <header class="ms-welcome__header ms-bgColor-neutralLighter">
+        <img width="60" height="60" src="https://cdrapps.blob.core.windows.net/clausepicker/assets/logo-filled.png" alt="CDR Law" title="CDR Law"/>
+    </header>
     <main id="app-body" class="ms-welcome__main">
         <div class="category">
             <div class="category-toggle">Header (no clauses)</div>
@@ -1177,4 +1188,13 @@ Office.onReady(function (n) {
             el.addEventListener("click", () => {
                 if (el.cla
 
-</script></body></html>
+</script>    <div id="taskpane-root">
+        <div id="taskpane-content">
+            <header>…</header>
+            <main>…</main>
+        </div>
+
+        <footer id="taskpane-footer">
+            (c) 2025 CDR Law. Built by Robert C.H. Corrigan
+        </footer>
+    </div></body></html>
