@@ -1179,64 +1179,64 @@
 
     </main>
 
+    <script>
+    function insertTextIntoDocument(text) {
+        Word.run(function (context) {
+            var selection = context.document.getSelection(); // current cursor/selection
+            selection.insertText(text, Word.InsertLocation.replace);
+            return context.sync();
+        }).catch(function (error) {
+            console.log("Error: " + error);
+            if (error instanceof OfficeExtension.Error) {
+                console.log("Debug info: " + JSON.stringify(error.debugInfo));
+            }
+        });
+    }
+
+    function insertHtmlIntoDocument(html) {
+        Word.run(function (context) {
+            var selection = context.document.getSelection(); // current cursor/selection
+            selection.insertHtml(html, Word.InsertLocation.replace);
+            return context.sync();
+        }).catch(function (error) {
+            console.log("Error: " + error);
+            if (error instanceof OfficeExtension.Error) {
+                console.log("Debug info: " + JSON.stringify(error.debugInfo));
+            }
+        });
+    }
+
+    Office.onReady(function (info) {
+        if (info.host === Office.HostType.Word) {
+            // Expand / collapse for all heading levels
+            document
+                .querySelectorAll(".category-toggle, .subcategory-toggle, .subsubcategory-toggle")
+                .forEach(function (el) {
+                    el.addEventListener("click", function () {
+                        el.classList.toggle("expanded");
+                    });
+                });
+
+            // Insert clause text/HTML into Word
+            document.querySelectorAll(".clause-item").forEach(function (el) {
+                el.addEventListener("click", function () {
+                    if (el.classList.contains("clause-multiline") ||
+                        el.classList.contains("clause-table")) {
+                        insertHtmlIntoDocument(el.innerHTML);
+                    } else {
+                        insertTextIntoDocument(el.textContent.trim());
+                    }
+                });
+            });
+        }
+    });
+    </script>
+
+    </div> <!-- end #taskpane-content -->
+
     <footer id="taskpane-footer">
        (c)2025 CDR Law. Built by Robert C.H. Corrigan
     </footer>
-  </div> <!-- #taskpane-content -->
-</div> <!-- #taskpane-root -->
-
-<script>
-function insertTextIntoDocument(text) {
-    Word.run(function (context) {
-        var selection = context.document.getSelection(); // current cursor/selection
-        selection.insertText(text, Word.InsertLocation.replace);
-        return context.sync();
-    }).catch(function (error) {
-        console.log("Error: " + error);
-        if (error instanceof OfficeExtension.Error) {
-            console.log("Debug info: " + JSON.stringify(error.debugInfo));
-        }
-    });
-}
-
-function insertHtmlIntoDocument(html) {
-    Word.run(function (context) {
-        var selection = context.document.getSelection(); // current cursor/selection
-        selection.insertHtml(html, Word.InsertLocation.replace);
-        return context.sync();
-    }).catch(function (error) {
-        console.log("Error: " + error);
-        if (error instanceof OfficeExtension.Error) {
-            console.log("Debug info: " + JSON.stringify(error.debugInfo));
-        }
-    });
-}
-
-Office.onReady(function (info) {
-    if (info.host === Office.HostType.Word) {
-        // Expand / collapse for all levels
-        document
-            .querySelectorAll(".category-toggle, .subcategory-toggle, .subsubcategory-toggle")
-            .forEach(function (el) {
-                el.addEventListener("click", function () {
-                    el.classList.toggle("expanded");
-                });
-            });
-
-        // Clause insertion
-        document.querySelectorAll(".clause-item").forEach(function (el) {
-            el.addEventListener("click", function () {
-                if (el.classList.contains("clause-multiline") ||
-                    el.classList.contains("clause-table")) {
-                    insertHtmlIntoDocument(el.innerHTML);
-                } else {
-                    insertTextIntoDocument(el.textContent.trim());
-                }
-            });
-        });
-    }
-});
-</script>
-
+  </div> <!-- end #taskpane-root -->
 </body>
 </html>
