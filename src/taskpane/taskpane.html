@@ -1147,11 +1147,14 @@
 
 Office.onReady(function(n) {
     if (n.host === Office.HostType.Word) {
-        document.querySelectorAll(".category-toggle, .subcategory-toggle, .subsubcategory-toggle").forEach(n => {
-            n.addEventListener("click", () => {
-                n.classList.toggle("expanded");
-            });
-        });
+            // expand / collapse
+            document
+                .querySelectorAll(".category-toggle, .subcategory-toggle, .subsubcategory-toggle")
+                .forEach(function (el) {
+                    el.addEventListener("click", function () {
+                        el.classList.toggle("expanded");
+                    });
+                });
         document.querySelectorAll(".clause-item").forEach(n => {
             n.addEventListener("click", () => {
                 n.classList.contains("clause-multiline") || n.classList.contains("clause-table") ?
