@@ -1145,31 +1145,22 @@
         });
     }
 
-    Office.onReady(function (info) {
-        if (info.host === Office.HostType.Word) {
-            // expand / collapse
-            document
-                .querySelectorAll(".category-toggle, .subcategory-toggle, .subsubcategory-toggle")
-                .forEach(function (el) {
-                    el.addEventListener("click", function () {
-                        el.classList.toggle("expanded");
-                    });
-                });
-
-            // clause click → insert
-            document
-                .querySelectorAll(".clause-item")
-                .forEach(function (el) {
-                    el.addEventListener("click", function () {
-                        if (el.classList.contains("clause-multiline") || el.classList.contains("clause-table")) {
-                            insertHtmlIntoDocument(el.innerHTML);
-                        } else {
-                            insertTextIntoDocument(el.textContent.trim());
-                        }
-                    });
-                });
-        }
-    });
+Office.onReady(function(n) {
+    if (n.host === Office.HostType.Word) {
+        document.querySelectorAll(".category-toggle, .subcategory-toggle, .subsubcategory-toggle").forEach(n => {
+            n.addEventListener("click", () => {
+                n.classList.toggle("expanded");
+            });
+        });
+        document.querySelectorAll(".clause-item").forEach(n => {
+            n.addEventListener("click", () => {
+                n.classList.contains("clause-multiline") || n.classList.contains("clause-table") ?
+                    insertHtmlIntoDocument(n.innerHTML) :
+                    insertTextIntoDocument(n.textContent.trim());
+            });
+        });
+    }
+})
 </script>
 </body>
 </html>
